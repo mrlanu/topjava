@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
@@ -38,9 +39,9 @@ public class UserMealsUtil {
 
         List<UserMealWithExceed> result = new ArrayList<>();
 
-        Map<Integer, List<UserMeal>> mapUserMealByDay = mealList
+        Map<LocalDate, List<UserMeal>> mapUserMealByDay = mealList
                 .stream()
-                .collect(Collectors.groupingBy(p -> p.getDateTime().getDayOfMonth()));
+                .collect(Collectors.groupingBy(p -> p.getDateTime().toLocalDate()));
 
         mapUserMealByDay
                 .forEach((day, racione) -> {
@@ -48,16 +49,10 @@ public class UserMealsUtil {
                     int calPerDay = supplier
                            .get()
                            .collect(Collectors.summingInt(p -> p.getCalories()));
-                   supplier
+                    supplier
                            .get()
                            .filter(p -> TimeUtil.isBetween(p.getDateTime().toLocalTime(), startTime, endTime))
-                           .peek(p -> {
-                               if (calPerDay <= caloriesPerDay) {
-                                   result.add(new UserMealWithExceed(p.getDateTime(), p.getDescription(), p.getCalories(), false));
-                               }else {
-                                   result.add(new UserMealWithExceed(p.getDateTime(), p.getDescription(), p.getCalories(), true));
-                               }
-                           })
+                           .peek(p -> result.add(new UserMealWithExceed(p.getDateTime(), p.getDescription(), p.getCalories(), caloriesPerDay >= calPerDay)))
                            .count();
 
                 });
