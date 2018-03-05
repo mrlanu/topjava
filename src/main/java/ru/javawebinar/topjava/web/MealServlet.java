@@ -13,8 +13,10 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       MealService mealService = new MealServiceImpl();
-         req.setAttribute("mealList", mealService.getAllWithExceed());
-        req.getRequestDispatcher("/meals.jsp").forward(req, resp);
+
+        MealService mealService = new MealServiceImpl();
+
+       req.setAttribute("mealList", mealService.getAllWithExceed());
+       req.getRequestDispatcher("/meals.jsp").forward(req, resp);
     }
 }

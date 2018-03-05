@@ -28,6 +28,7 @@ public class MealServiceImpl implements MealService{
     @Override
     public List<MealWithExceed> getAllWithExceed() {
         List<Meal> listMeal = new ArrayList<>();
+
         mealDao.getAll().forEach((k, v) -> listMeal.add(v));
         return MealsUtil.getFilteredWithExceeded2(listMeal, 2000);
     }
