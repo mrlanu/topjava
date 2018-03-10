@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface MealService {
 
-    void saveMeal(Meal meal);
+    void addMeal(Meal meal);
     void deleteMeal(Long id);
     List<MealWithExceed> getAllWithExceed();
 }

@@ -11,10 +11,10 @@ import java.io.IOException;
 
 public class MealServlet extends HttpServlet {
 
+    private MealService mealService = new MealServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        MealService mealService = new MealServiceImpl();
 
        req.setAttribute("mealList", mealService.getAllWithExceed());
        req.getRequestDispatcher("/meals.jsp").forward(req, resp);
